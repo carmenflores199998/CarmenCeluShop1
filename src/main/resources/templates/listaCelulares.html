@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lista de Celulares</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <div class="container mt-4">
+      <h2>Lista de Celulares</h2>
+
+      <a class="btn btn-primary mt-4 mb-4" th:href="@{/celular}"
+        >Registrar Celular</a
+      >
+
+      <div
+        th:if="${mensaje}"
+        class="alert alert-success"
+      >
+        <p th:text="${mensaje}"></p>
+      </div>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Descripción</th>
+            <th>Precio</th>
+            <th>Stock</th>
+            <th>Marca</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="celular : ${celulares}">
+            <td th:text="${celular.cod_celular}"></td>
+            <td th:text="${celular.des_celular}"></td>
+            <td th:text="${celular.pre_celular}"></td>
+            <td th:text="${celular.sto_celular}"></td>
+            <td th:text="${celular.marca.nom_marca}"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>

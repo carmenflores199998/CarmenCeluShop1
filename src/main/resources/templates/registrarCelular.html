@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Registrar Celular</title>
+    <!-- Agrega los enlaces a los archivos CSS de Bootstrap -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <div class="container mt-4">
+      <h2 class="mb-4">Registrar Celular</h2>
+      <form th:action="@{/celular}" th:object="${celular}" method="post">
+        <div class="form-group">
+          <label for="des_celular">Descripción del Celular</label>
+          <input
+            type="text"
+            class="form-control"
+            id="des_celular"
+            th:field="*{des_celular}"
+            placeholder="Ejemplo: Samsung Galaxy S20"
+            required
+          />
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="pre_celular">Precio</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">$</span>
+              </div>
+              <input
+                type="number"
+                class="form-control"
+                id="pre_celular"
+                th:field="*{pre_celular}"
+                step="0.01"
+                required
+              />
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="sto_celular">Stock</label>
+            <input
+              type="number"
+              class="form-control"
+              id="sto_celular"
+              th:field="*{sto_celular}"
+              required
+            />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="marca">Marca</label>
+          <select class="form-control" id="marca" th:field="*{marca}" required>
+            <option value="">Selecciona una marca</option>
+            <option
+              th:each="marca : ${marcas}"
+              th:value="${marca.cod_marca}"
+              th:text="${marca.nom_marca}"
+            ></option>
+          </select>
+        </div>
+
+        <div id="divErrores"></div>
+
+        <button
+          type="submit"
+          class="btn btn-primary"
+          onclick="return validarFormulario()"
+        >
+          Registrar
+        </button>
+      </form>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+      function validarFormulario() {
+        var des_celular = document.getElementById("des_celular").value;
+        var pre_celular = document.getElementById("pre_celular").value;
+        var sto_celular = document.getElementById("sto_celular").value;
+
+        if (des_celular.length < 2 || des_celular.length > 30) {
+          mostrarError("La descripción debe tener entre 2 y 30 caracteres.");
+          return false;
+        }
+
+        if (pre_celular < 0.0) {
+          mostrarError(
+            "El precio debe ser un número decimal con dos decimales."
+          );
+          return false;
+        }
+
+        if (sto_celular <= 0) {
+          mostrarError("El stock debe ser mayor que 0.");
+          return false;
+        }
+
+        return true;
+      }
+
+      function mostrarError(mensaje) {
+        var divErrores = document.getElementById("divErrores");
+
+        var divMensaje = document.createElement("div");
+        divMensaje.classList.add("alert", "alert-danger");
+        divMensaje.innerHTML = mensaje;
+
+        divErrores.appendChild(divMensaje);
+      }
+    </script>
+  </body>
+</html>
